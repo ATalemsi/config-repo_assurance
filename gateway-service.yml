@@ -14,10 +14,18 @@ spring:
           uri: lb://customer-service
           predicates:
             - Path=/customers/**
-        - id: policy-service
+        - id: policy-service-contrats
           uri: lb://policy-service
           predicates:
-            - Path=/policys/**
+            - Path=/policys/contrats/**
+          filters:
+            - RewritePath=/policys/contrats/(?<segment>.*), /contrats/$\{segment}
+        - id: policy-service-policies
+          uri: lb://policy-service
+          predicates:
+            - Path=/policys/sinistres/**
+          filters:
+            - RewritePath=/policys/sinistres/(?<segment>.*), /sinistres/$\{segment}
         - id: auth-service
           uri: lb://auth-service
           predicates:
@@ -30,3 +38,11 @@ spring:
             allowed-headers: "*"
             allow-credentials: true
             max-age: 3600
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    gateway:
+      enabled: true

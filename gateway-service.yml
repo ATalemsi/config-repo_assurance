@@ -20,7 +20,7 @@ spring:
             - Path=/policys/contrats/**
           filters:
             - RewritePath=/policys/contrats/(?<segment>.*), /contrats/$\{segment}
-        - id: policy-service-policies
+        - id: policy-service-sinistres
           uri: lb://policy-service
           predicates:
             - Path=/policys/sinistres/**
